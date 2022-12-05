@@ -13,6 +13,7 @@ const lines = require("../getLines")("./moves");
 //  1   2   3   4   5   6   7   8   9
 
 // Answer 1 RNZLFZSJH
+// Answer 2 CNSFCGJSM
 
 // Initial state of crate piles
 const crates = [
