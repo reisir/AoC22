@@ -9,23 +9,27 @@ class Range {
   }
 
   overlapLow(other) {
-    return other >= this.low;
+    return other >= this.low && other <= this.high;
   }
 
   overlapHigh(other) {
-    return other <= this.high;
+    return other <= this.high && other >= this.low;
   }
 
-  covered(range) {
-    return this.overlapLow(range.low) && this.overlapHigh(range.high);
+  static covers(r1, r2) {
+    return (
+      (r1.overlapLow(r2.low) && r1.overlapHigh(r2.high)) ||
+      (r2.overlapLow(r1.low) && r2.overlapHigh(r1.high))
+    );
   }
 
-  static overlap(r1, r2) {
-    if (r1.high <= r2.high && r1.high >= r2.low) return true;
-    if (r2.high <= r1.high && r2.high >= r1.low) return true;
-    if (r1.low >= r2.low && r1.low <= r2.high) return true;
-    if (r2.low >= r1.low && r2.low <= r1.high) return true;
-    return false;
+  static overlaps(r1, r2) {
+    return (
+      r1.overlapHigh(r2.high) ||
+      r2.overlapHigh(r1.high) ||
+      r1.overlapLow(r2.low) ||
+      r2.overlapLow(r1.low)
+    );
   }
 }
 
