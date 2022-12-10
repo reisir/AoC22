@@ -72,8 +72,6 @@ function findHighestScenicScore() {
   let highest = -1;
   for (let x = 0; x < trees.length; x++) {
     for (let y = 0; y < trees[x].length; y++) {
-      // console.log("");
-      // console.log(y, x);
       const score = scenicScore(trees, x, y);
       if (highest < score) {
         highest = score;
@@ -92,7 +90,6 @@ function scenicScore(forest, x, y) {
     score++;
     if (forest[x + i][y].height >= tree.height) break;
   }
-  // console.log("south", score);
   totalScore *= score;
   score = 0;
   // east
@@ -100,7 +97,6 @@ function scenicScore(forest, x, y) {
     score++;
     if (forest[x][y + i].height >= tree.height) break;
   }
-  // console.log("east", score);
   totalScore *= score;
   score = 0;
   // west
@@ -108,7 +104,6 @@ function scenicScore(forest, x, y) {
     score++;
     if (forest[x][y - i].height >= tree.height) break;
   }
-  // console.log("west", score);
   totalScore *= score;
   score = 0;
   // north
@@ -116,7 +111,6 @@ function scenicScore(forest, x, y) {
     score++;
     if (forest[x - i][y].height >= tree.height) break;
   }
-  // console.log("north", score);
   totalScore *= score;
   return totalScore;
 }
@@ -126,6 +120,6 @@ lines.forEach((line, i) => {
   line.split("").forEach((tree) => trees[i].push(new Tree(tree)));
 });
 
-// console.log(countVisible());
+console.log(countVisible());
 
 console.log(findHighestScenicScore());
