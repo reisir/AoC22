@@ -14,6 +14,8 @@ const world = [[start]];
 h = [0, 0];
 t = [0, 0];
 
+const tails = Array(9).fill(t);
+
 function growWorld(cardinal) {
   const row = Array(world[0].length).fill(uncharted);
   switch (cardinal) {
@@ -38,22 +40,22 @@ function growWorld(cardinal) {
   }
 }
 
-function moveTail() {
+function moveTail(head = h, tail = t) {
   const sameCords = (c1, c2) => c1[0] === c2[0] && c1[1] === c2[1];
   const distance = (c1, c2) =>
     Math.max(Math.abs(c2[0] - c1[0]), Math.abs(c2[1] - c1[1]));
 
-  // Save t cords so they don't mutate before they're used in calculations
-  const [t0, t1] = t;
+  // Save tail cords so they don't mutate before they're used in calculations
+  const [t0, t1] = tail;
 
-  // jesus christ
-  if (h[0] > t0 && distance([t0, t1], h) > 1) t[0]++;
-  if (h[1] > t1 && distance([t0, t1], h) > 1) t[1]++;
-  if (h[0] < t0 && distance([t0, t1], h) > 1) t[0]--;
-  if (h[1] < t1 && distance([t0, t1], h) > 1) t[1]--;
+  if (head[0] > t0 && distance([t0, t1], head) > 1) tail[0]++;
+  if (head[1] > t1 && distance([t0, t1], head) > 1) tail[1]++;
+  if (head[0] < t0 && distance([t0, t1], head) > 1) tail[0]--;
+  if (head[1] < t1 && distance([t0, t1], head) > 1) tail[1]--;
+}
 
-  // check if "s"
-  if (world[t[0]][t[1]] != start) world[t[0]][t[1]] = visited;
+function markVisited(tail = t) {
+  if (world[tail[0]][tail[1]] != start) world[tail[0]][tail[1]] = visited;
 }
 
 function moveHead(direction) {
@@ -81,12 +83,12 @@ function moveHead(direction) {
   if (h[1] < 0) growWorld("west");
 }
 
-function visualize() {
+function visualize(head = h, tail = t) {
   const copy = JSON.parse(JSON.stringify(world));
 
   //   console.log(h, t);
-  copy[t[0]][t[1]] = "T";
-  copy[h[0]][h[1]] = "H";
+  copy[tail[0]][tail[1]] = "T";
+  copy[head[0]][head[1]] = "H";
 
   console.log();
   let s = "";
@@ -120,10 +122,11 @@ lines.forEach((line) => {
   for (let i = 0; i < amount; i++) {
     moveHead(direction);
     moveTail();
+    markVisited(t);
     // visualize();
   }
 });
 
-visualize();
+// visualize();
 
 console.log(countVisited());
