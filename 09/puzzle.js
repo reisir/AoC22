@@ -100,7 +100,7 @@ function visualize(rope) {
 lines.forEach((line) => {
   let [direction, amount] = line.split(" ");
   amount = parseInt(amount);
-  console.log("\n", line);
+  // console.log("\n", line);
   for (let i = 0; i < amount; i++) {
     moveHead(direction, rope[0]);
     for (let i = 1; i < rope.length; i++) moveTail(rope[i - 1], rope[i]);
