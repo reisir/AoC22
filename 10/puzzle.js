@@ -22,22 +22,20 @@ function addSignalStrength() {
   totalSignalStrength += signalStrength();
 }
 
-// Checks if on tick 20, 60, 100, 140 etc.
-
 function tick() {
   // Position on current line
   const position = cycle % 40;
 
-  // Change line
+  // Change line, checks if on cycle 0, 40, 80, 120 etc. but skips 0 (&& cycle)
   if (!position && cycle) screen += "\n";
 
-  // Draw pixel
+  // Draw pixel if sprite position (register) is near enough
   screen += Math.abs(position - register) <= 1 ? visible : dark;
 
   // Tick
   cycle++;
 
-  // Do part 1
+  // Do part 1, checks if on tick 20, 60, 100, 140 etc.
   if (cycle % 40 === 20) addSignalStrength();
 }
 
